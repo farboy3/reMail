@@ -21,8 +21,9 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "SearchRunner.h"
+#import "PullRefreshTableViewController.h"
 
-@interface MailboxViewController : UITableViewController <MFMailComposeViewControllerDelegate, SearchManagerDelegate> {
+@interface MailboxViewController : PullRefreshTableViewController <MFMailComposeViewControllerDelegate, SearchManagerDelegate> {
 	NSMutableArray *emailData;
 	int nResults;
 	int folderNum;

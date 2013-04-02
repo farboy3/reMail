@@ -57,6 +57,10 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 
 UIImage* imgAttachmentAllMail = nil;
 
+- (void)refresh {
+    [[SyncManager getSingleton] requestSyncIfNoneInProgress];
+}
+
 - (void)dealloc {
 	[emailData release];
 	[imgAttachmentAllMail release];

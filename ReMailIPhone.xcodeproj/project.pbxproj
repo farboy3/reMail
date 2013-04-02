@@ -207,6 +207,8 @@
 		A67025EF1243396D003519CB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 147537361155B73A00E1AA38 /* libcrypto.a */; };
 		B82AD921170A38450006E68F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B82AD920170A38450006E68F /* Default-568h@2x.png */; };
 		B82AD923170A388B0006E68F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B82AD922170A388B0006E68F /* Default@2x.png */; };
+		B8B99750170A53970061B5C1 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */; };
+		B8B99752170A53AD0061B5C1 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B8B99751170A53AD0061B5C1 /* arrow.png */; };
 		F83C988F1566DFB40005B167 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83C988E1566DFB40005B167 /* QuartzCore.framework */; };
 		F83C98911566DFBA0005B167 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83C98901566DFBA0005B167 /* StoreKit.framework */; };
 		F83C98931566DFC10005B167 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83C98921566DFC10005B167 /* CoreLocation.framework */; };
@@ -730,6 +732,9 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B82AD920170A38450006E68F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Artwork/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B82AD922170A388B0006E68F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		B8B9974E170A53970061B5C1 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PullRefreshTableViewController.h; path = ../PullToRefresh/Classes/PullRefreshTableViewController.h; sourceTree = "<group>"; };
+		B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PullRefreshTableViewController.m; path = ../PullToRefresh/Classes/PullRefreshTableViewController.m; sourceTree = "<group>"; };
+		B8B99751170A53AD0061B5C1 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = ../PullToRefresh/arrow.png; sourceTree = "<group>"; };
 		F83C988E1566DFB40005B167 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		F83C98901566DFBA0005B167 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		F83C98921566DFC10005B167 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -985,6 +990,8 @@
 		14C4C95A0F253DBA00BFFF6B /* UIClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B8B9974E170A53970061B5C1 /* PullRefreshTableViewController.h */,
+				B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */,
 				14F842C1113728830096DE57 /* AboutViewController.h */,
 				14F842C2113728830096DE57 /* AboutViewController.m */,
 				14F842C3113728830096DE57 /* AccountTypeSelectViewController.h */,
@@ -1160,6 +1167,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B8B99751170A53AD0061B5C1 /* arrow.png */,
 				14CEB02E1010987500025F41 /* Localizable.strings */,
 				1439C4F21090D936006CE583 /* Xibs */,
 				1439C4F11090D928006CE583 /* Artwork */,
@@ -1617,6 +1625,7 @@
 				2A43589F11C0D845009A6A60 /* Three20.bundle in Resources */,
 				B82AD921170A38450006E68F /* Default-568h@2x.png in Resources */,
 				B82AD923170A388B0006E68F /* Default@2x.png in Resources */,
+				B8B99752170A53AD0061B5C1 /* arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1686,6 +1695,7 @@
 				14F8431B11372CE00096DE57 /* NSObject+SBJSON.m in Sources */,
 				14F8431C11372CE00096DE57 /* NSString+SBJSON.m in Sources */,
 				14F8431D11372CE00096DE57 /* SBJSON.m in Sources */,
+				B8B99750170A53970061B5C1 /* PullRefreshTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
