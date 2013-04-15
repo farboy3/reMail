@@ -54,7 +54,6 @@ int currentDBNumAllMail = 0; // current offset we're searching at
 BOOL receivedAdditionalAllMail = NO; // whether we received an additionalResults call
 BOOL moreResultsAllMail = NO; // are there more results after this?
 
-
 UIImage* imgAttachmentAllMail = nil;
 
 - (void)refresh {
@@ -285,7 +284,7 @@ UIImage* imgAttachmentAllMail = nil;
 	
 	imgAttachmentAllMail = [UIImage imageNamed:@"attachment.png"];
 	[imgAttachmentAllMail retain]; // released in "dealloc"
-
+    
 	//[sm registerForNewEmail:self]; (hehe - not for now)
 	
 	[self runLoadDataWithDBNum:currentDBNumAllMail];
@@ -430,6 +429,8 @@ UIImage* imgAttachmentAllMail = nil;
     if (cell == nil) {
         cell = [self createMailCellFromNib];
 	}
+
+    [cell.unreadIndicator setHidden:[[y objectForKey:@"unread"] intValue] <= 0];
 	
 	if([[y objectForKey:@"hasAttachment"] intValue] > 0) {
 		cell.attachmentIndicator.image = imgAttachmentAllMail;

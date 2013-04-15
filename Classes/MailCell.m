@@ -26,6 +26,7 @@
 @synthesize subjectLabel;
 @synthesize peopleLabel;
 @synthesize dateLabel;
+@synthesize unreadIndicator;
 @synthesize attachmentIndicator;
 @synthesize bodyLabel;
 

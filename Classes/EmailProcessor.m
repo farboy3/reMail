@@ -913,7 +913,7 @@ BOOL transactionOpen = NO; // caused effect (with firstOne): After we start up, 
 	if(self.shuttingDown) return;
 	
 	if(emailStmt == nil) {
-		NSString *updateEmail = @"INSERT INTO email(sender_name, sender_address, tos, ccs, bccs, datetime, msg_id, attachments, folder, uid, folder_num) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+		NSString *updateEmail = @"INSERT INTO email(sender_name, sender_address, tos, ccs, bccs, datetime, msg_id, attachments, folder, unread, uid, folder_num) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 		int dbrc = sqlite3_prepare_v2([[AddEmailDBAccessor sharedManager] database], [updateEmail UTF8String], -1, &emailStmt, nil);	
 		if (dbrc != SQLITE_OK) {
 			NSLog(@"Failed step in bindEmail with error %s", sqlite3_errmsg([[AddEmailDBAccessor sharedManager] database]));
@@ -921,18 +921,20 @@ BOOL transactionOpen = NO; // caused effect (with firstOne): After we start up, 
 		}
 		
 	}
-	
-	sqlite3_bind_text(emailStmt, 1, [[data objectForKey:@"senderName"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 2, [[data objectForKey:@"senderAddress"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 3, [[data objectForKey:@"tos"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 4, [[data objectForKey:@"ccs"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 5, [[data objectForKey:@"bccs"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 6, [[data objectForKey:@"datetime"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 7, [[data objectForKey:@"msgId"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 8, [[data objectForKey:@"attachments"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 9, [[data objectForKey:@"folderPath"] UTF8String], -1, NULL);
-	sqlite3_bind_text(emailStmt, 10, [[data objectForKey:@"uid"] UTF8String], -1, NULL);
-	sqlite3_bind_int(emailStmt, 11, [[data objectForKey:@"folderNum"] intValue]);
+
+	int col = 0;
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"senderName"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"senderAddress"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"tos"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"ccs"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"bccs"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"datetime"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"msgId"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"attachments"] UTF8String], -1, NULL);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"folderPath"] UTF8String], -1, NULL);
+	sqlite3_bind_int(emailStmt, ++col, [[data objectForKey:@"unread"] intValue]);
+	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"uid"] UTF8String], -1, NULL);
+	sqlite3_bind_int(emailStmt, ++col, [[data objectForKey:@"folderNum"] intValue]);
 	
 	if(self.shuttingDown) return;
 	

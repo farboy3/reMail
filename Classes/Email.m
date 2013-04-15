@@ -83,7 +83,7 @@ static sqlite3_stmt *inboxStmt = nil;
 	// create tables as appropriate
 	char* errorMsg;	
 	int res = sqlite3_exec([[AddEmailDBAccessor sharedManager] database],[[NSString stringWithString:@"CREATE TABLE IF NOT EXISTS email "
-																			  "(pk INTEGER PRIMARY KEY, datetime REAL, sender_name VARCHAR(50), sender_address VARCHAR(50), "
+																			  "(pk INTEGER PRIMARY KEY, datetime REAL, sender_name VARCHAR(50), sender_address VARCHAR(50), unread INTEGER, "
 																			  "tos TEXT, ccs TEXT, bccs TEXT, attachments TEXT, msg_id VARCHAR(50), uid VARCHAR(20), folder VARCHAR(20), folder_num INTEGER, folder_num_1 INTEGER, folder_num_2 INTEGER, folder_num_3 INTEGER, extra INTEGER);"] UTF8String] , NULL, NULL, &errorMsg);
 	if (res != SQLITE_OK) {
 		NSString *errorMessage = [NSString stringWithFormat:@"Failed to create email table '%s'.", errorMsg];
@@ -128,12 +128,12 @@ static sqlite3_stmt *inboxStmt = nil;
 -(void)loadData:(int)pkToLoad{
 	static sqlite3_stmt *emailLoadStmt = nil;
 	
-	NSString *statement = [NSString stringWithFormat:@"SELECT email.pk, email.datetime, email.sender_name, email.sender_address, email.tos, email.ccs, email.bccs, email.attachments, email.msg_id, email.folder, email.folder_num, email.uid, "
+	NSString *statement = [NSString stringWithFormat:@"SELECT email.pk, email.datetime, email.sender_name, email.sender_address, email.tos, email.ccs, email.bccs, email.attachments, email.msg_id, email.folder, email.folder_num, email.uid, email.unread,"
 						   "search_email.meta, search_email.subject, search_email.body FROM email, search_email WHERE email.pk = search_email.docid AND email.pk = %i LIMIT 1;", pkToLoad];
-	if([AppSettings dataInitVersion] == nil) { // meta used to be called meta_string
-		statement = [NSString stringWithFormat:@"SELECT email.pk, email.datetime, email.sender_name, email.sender_address, email.tos, email.ccs, email.bccs, email.attachments, email.msg_id, email.folder, email.folder_num, email.uid, "
-					 "search_email.meta_string, search_email.subject, search_email.body FROM email, search_email WHERE email.pk = search_email.docid AND email.pk = %i LIMIT 1;", pkToLoad];
-	}
+//	if([AppSettings dataInitVersion] == nil) { // meta used to be called meta_string
+//		statement = [NSString stringWithFormat:@"SELECT email.pk, email.datetime, email.sender_name, email.sender_address, email.tos, email.ccs, email.bccs, email.attachments, email.msg_id, email.folder, email.folder_num, email.uid, email.unread,"
+//					 "search_email.meta_string, search_email.subject, search_email.body FROM email, search_email WHERE email.pk = search_email.docid AND email.pk = %i LIMIT 1;", pkToLoad];
+//	}
 	
 	int dbrc;
 	dbrc = sqlite3_prepare_v2([[LoadEmailDBAccessor sharedManager] database], [statement UTF8String], -1, &emailLoadStmt, nil);
@@ -149,7 +149,8 @@ static sqlite3_stmt *inboxStmt = nil;
 		self.pk = sqlite3_column_int(emailLoadStmt, 0);
 		
 		NSDate *date = [NSDate date]; // default == now!
-		const char * sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 1);
+        int col = 0;
+		const char * sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {
 			NSString *dateString = [NSString stringWithUTF8String:sqlVal];
 			date = [DateUtil datetimeInLocal:[dateFormatter dateFromString:dateString]];
@@ -157,53 +158,54 @@ static sqlite3_stmt *inboxStmt = nil;
 		self.datetime = date;
 		
 		NSString* temp = @"";
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 2);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; }
 		self.senderName = temp;
 		
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 3);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; }
 		self.senderAddress = temp; 
 		
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 4);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; }
 		self.tos = temp;
 
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 5);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; }
 		self.ccs = temp;
 
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 6);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; }
 		self.bccs = temp;
-
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 7);
+        
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.attachments = temp;
 
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 8);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.msgId = temp;
 
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 9);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.folder = temp;
 		
-		self.folderNum = sqlite3_column_int(emailLoadStmt, 10);
+		self.folderNum = sqlite3_column_int(emailLoadStmt, ++col);
+        self->unread = (const char *)sqlite3_column_int(emailLoadStmt, ++col) > 0;        
 
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 11);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.uid = temp;
 		
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 12);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.metaString = temp;
 		
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 13);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.subject = temp;
 
-		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, 14);
+		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 
 		self.body = temp;
 	} 

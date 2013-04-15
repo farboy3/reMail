@@ -30,6 +30,7 @@
 	NSString* bccs;
 	
 	NSDate* datetime;
+    bool unread;
 	
 	NSString* msgId;
 	
