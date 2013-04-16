@@ -208,6 +208,7 @@
 		B82AD921170A38450006E68F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B82AD920170A38450006E68F /* Default-568h@2x.png */; };
 		B8B99750170A53970061B5C1 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */; };
 		B8B99752170A53AD0061B5C1 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B8B99751170A53AD0061B5C1 /* arrow.png */; };
+		B8D45F5B171DC3A40010B63F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8D45F5A171DC3A40010B63F /* Default@2x.png */; };
 		F83C988F1566DFB40005B167 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83C988E1566DFB40005B167 /* QuartzCore.framework */; };
 		F83C98911566DFBA0005B167 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83C98901566DFBA0005B167 /* StoreKit.framework */; };
 		F83C98931566DFC10005B167 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F83C98921566DFC10005B167 /* CoreLocation.framework */; };
@@ -733,6 +734,7 @@
 		B8B9974E170A53970061B5C1 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PullRefreshTableViewController.h; path = Classes/PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PullRefreshTableViewController.m; path = Classes/PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		B8B99751170A53AD0061B5C1 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrow.png; path = Resources/Artwork/arrow.png; sourceTree = "<group>"; };
+		B8D45F5A171DC3A40010B63F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F83C988E1566DFB40005B167 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		F83C98901566DFBA0005B167 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		F83C98921566DFC10005B167 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -1106,6 +1108,7 @@
 		29B97314FDCFA39411CA2CEA /* NextMailIPhone */ = {
 			isa = PBXGroup;
 			children = (
+				B8D45F5A171DC3A40010B63F /* Default@2x.png */,
 				F86BECBA157689050080308C /* CFNetwork.framework */,
 				F83C989C1566E0040005B167 /* libiconv.dylib */,
 				F83C989A1566DFDA0005B167 /* Foundation.framework */,
@@ -1622,6 +1625,7 @@
 				2A43589F11C0D845009A6A60 /* Three20.bundle in Resources */,
 				B82AD921170A38450006E68F /* Default-568h@2x.png in Resources */,
 				B8B99752170A53AD0061B5C1 /* arrow.png in Resources */,
+				B8D45F5B171DC3A40010B63F /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
