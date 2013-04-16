@@ -191,7 +191,8 @@ static sqlite3_stmt *inboxStmt = nil;
 		self.folder = temp;
 		
 		self.folderNum = sqlite3_column_int(emailLoadStmt, ++col);
-        self->unread = (const char *)sqlite3_column_int(emailLoadStmt, ++col) > 0;        
+
+        self->unread = sqlite3_column_int(emailLoadStmt, ++col) > 0;
 
 		sqlVal = (const char *)sqlite3_column_text(emailLoadStmt, ++col);
 		if(sqlVal != nil) {	temp = [NSString stringWithUTF8String:sqlVal]; } 

@@ -922,6 +922,9 @@ BOOL transactionOpen = NO; // caused effect (with firstOne): After we start up, 
 		
 	}
 
+    NSLog(@"inserting email: %s", [[data objectForKey:@"senderName"] UTF8String]);
+    NSLog(@"inserting unread: %d", [[data objectForKey:@"unread"] intValue]);
+
 	int col = 0;
 	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"senderName"] UTF8String], -1, NULL);
 	sqlite3_bind_text(emailStmt, ++col, [[data objectForKey:@"senderAddress"] UTF8String], -1, NULL);
