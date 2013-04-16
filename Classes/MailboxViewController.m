@@ -433,7 +433,6 @@ UIImage* imgAttachmentAllMail = nil;
     [cell.unreadIndicator setHidden:[[y objectForKey:@"unread"] intValue] <= 0];
 	
 	if([[y objectForKey:@"hasAttachment"] intValue] > 0) {
-		cell.attachmentIndicator.image = imgAttachmentAllMail;
 		[cell.attachmentIndicator setHidden:NO];
 	} else {
 		[cell.attachmentIndicator setHidden:YES];
