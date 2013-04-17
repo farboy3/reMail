@@ -58,6 +58,7 @@ UIImage* imgAttachmentAllMail = nil;
 
 - (void)refresh {
     [[SyncManager getSingleton] requestSyncIfNoneInProgress];
+    [self stopLoading];
 }
 
 - (void)dealloc {
