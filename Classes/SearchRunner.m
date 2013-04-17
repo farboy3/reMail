@@ -418,7 +418,7 @@ static sqlite3_stmt *contactNameFindStmt = nil;
 	
 	sqlite3_stmt *folderSearchStmt = nil;
 	NSString *queryString = @"SELECT email.pk, email.sender_name, email.sender_address, search_email.subject, email.datetime, "
-	"LENGTH(email.attachments), SUBSTR(search_email.body,0,150), email.folder_num FROM "
+	"LENGTH(email.attachments), SUBSTR(search_email.body,0,150), email.folder_num, email.unread FROM "
 	"email, search_email "
 	"WHERE (email.folder_num = ? OR email.folder_num_1 = ? OR email.folder_num_2 = ? OR email.folder_num_3 = ?) AND email.pk = search_email.docid "
 	"ORDER BY email.datetime DESC;";
@@ -507,6 +507,9 @@ static sqlite3_stmt *contactNameFindStmt = nil;
 		[res setObject:folderNumValue forKey: @"folderNum"];
 		
 		[res setObject:[NSNumber numberWithInt:dbNum] forKey:@"dbNum"];
+
+        int unread = sqlite3_column_int (folderSearchStmt, 8);
+        [res setObject:[NSNumber numberWithInt:unread] forKey:@"unread"];
 		
 		[resArray addObject:res];
 		
