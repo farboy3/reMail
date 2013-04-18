@@ -54,8 +54,6 @@ int currentDBNumAllMail = 0; // current offset we're searching at
 BOOL receivedAdditionalAllMail = NO; // whether we received an additionalResults call
 BOOL moreResultsAllMail = NO; // are there more results after this?
 
-UIImage* imgAttachmentAllMail = nil;
-
 - (void)refresh {
     [[SyncManager getSingleton] requestSyncIfNoneInProgress];
     [self stopLoading];
@@ -63,8 +61,6 @@ UIImage* imgAttachmentAllMail = nil;
 
 - (void)dealloc {
 	[emailData release];
-	[imgAttachmentAllMail release];
-	imgAttachmentAllMail = nil;
 	
     [super dealloc];
 }
@@ -283,9 +279,6 @@ UIImage* imgAttachmentAllMail = nil;
 	
 	self.emailData = [[NSMutableArray alloc] initWithCapacity:1];
 	
-	imgAttachmentAllMail = [UIImage imageNamed:@"attachment.png"];
-	[imgAttachmentAllMail retain]; // released in "dealloc"
-    
 	//[sm registerForNewEmail:self]; (hehe - not for now)
 	
 	[self runLoadDataWithDBNum:currentDBNumAllMail];

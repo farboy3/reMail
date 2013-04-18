@@ -43,15 +43,9 @@ BOOL moreResults = NO; // are there more results after this?
 
 static NSDateFormatter *dateFormatter = nil;
 
-UIImage* imgAttachment = nil;
-
 - (void)dealloc {
 	[query release];
 	[emailData release];
-	
-	if (imgAttachment != nil) {
-		[imgAttachment release];
-	}
 	
 	if (dateFormatter != nil) {
 		[dateFormatter release];
@@ -307,9 +301,6 @@ UIImage* imgAttachment = nil;
 	
 	self.emailData = [[NSMutableArray alloc] initWithCapacity:1];
 	[self updateTitle];
-	
-	imgAttachment = [UIImage imageNamed:@"attachment.png"];
-	[imgAttachment retain]; // released in "dealloc"
 	
 	[self runSearchCreateDataWithDBNum:currentDBNum];
 }
