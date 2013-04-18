@@ -340,7 +340,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
-	NSLog(@"SearchResultsViewController reveived memory warning - dumping cache");
+	NSLog(@"MailboxViewController received memory warning - doing nothing for now");
 }
 
 -(MailCell*)createMailCellFromNib {
