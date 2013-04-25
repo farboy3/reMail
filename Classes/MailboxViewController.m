@@ -32,6 +32,7 @@
 #import "DateUtil.h"
 #import "GlobalDBFunctions.h"
 #import "EmailProcessor.h"
+#import "SearchEntryViewController.h"
 
 @interface TextStyleSheetAllMail : TTDefaultStyleSheet
 @end
@@ -87,6 +88,28 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	}
 	
 	currentDBNumAllMail = nextDBNum;
+}
+
+-(IBAction)searchClick:(id)sender {
+	NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"SearchEntryView" owner:self options:NULL];
+	NSEnumerator *nibEnumerator = [nibContents objectEnumerator];
+	SearchEntryViewController *uivc = nil;
+	NSObject* nibItem = nil;
+    while ( (nibItem = [nibEnumerator nextObject]) != NULL) {
+        if ( [nibItem isKindOfClass: [SearchEntryViewController class]]) {
+			uivc = (SearchEntryViewController*) nibItem;
+			break;
+		}
+	}
+    
+	if(uivc == nil) {
+		return;
+	}
+	
+	uivc.toolbarItems = [self.toolbarItems subarrayWithRange:NSMakeRange(0, 2)];
+	
+	[uivc doLoad];
+	[self.navigationController pushViewController:uivc animated:(sender != nil)];
 }
 
 -(NSString*)massageDisplayString:(NSString*)y {
@@ -268,6 +291,39 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+    // create an array for the buttons
+    NSMutableArray* buttons = [[[NSMutableArray alloc] initWithCapacity:3] autorelease];
+    
+    // Create compose button
+    UIBarButtonItem *composeButton = [[UIBarButtonItem alloc]
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                      target:self
+                                      action:@selector(composeClick)];
+    composeButton.style = UIBarButtonItemStyleBordered;
+    [buttons addObject:composeButton];
+    [composeButton release];
+
+    
+    // create a spacer between the buttons
+    UIBarButtonItem *spacer = [[UIBarButtonItem alloc]
+                               initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                               target:nil
+                               action:nil];
+    [buttons addObject:spacer];
+    [spacer release];
+
+    
+    // create a standard search button
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                   target:self
+                                   action:@selector(searchClick:)];
+    searchButton.style = UIBarButtonItemStyleBordered;
+    [buttons addObject:searchButton];
+    [searchButton release];
+                                
+    self.navigationItem.rightBarButtonItems = buttons;
+    
 	self.tableView.rowHeight = 96.0f;
 }
 
@@ -424,6 +480,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
         cell = [self createMailCellFromNib];
 	}
 
+    cell.supressDeleteButton = YES;
     [cell.unreadIndicator setHidden:[[y objectForKey:@"unread"] intValue] <= 0];
 	
 	if([[y objectForKey:@"hasAttachment"] intValue] > 0) {
