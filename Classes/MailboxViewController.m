@@ -215,6 +215,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	
 	NSString* dateString = [data objectForKey:@"datetime"];
 	NSDate* dateTime = [dateFormatter dateFromString:dateString];
+    dateTime = [DateUtil datetimeInLocal:dateTime];
 	[dataCopy setObject:dateTime forKey:@"datetime"];
 	[dateFormatter release];
 	

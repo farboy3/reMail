@@ -84,8 +84,8 @@
     NSInteger timezoneOffsetInSeconds = 3600*d->dt_zone/100;
     
     NSDate *date = [self senderDate];
-    
-    return [date dateByAddingTimeInterval:timezoneOffsetInSeconds * -1];
+    NSDate *newDate = [date dateByAddingTimeInterval:timezoneOffsetInSeconds * -1];
+    return newDate;
 }
 
 - (NSDate*)sentDateLocalTimeZone
