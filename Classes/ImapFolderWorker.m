@@ -723,12 +723,14 @@
                 NSNumber *unread = [NSNumber numberWithBool:msg.isUnread];
 
 				// released in EmailProcessor.addEmailWrapper
-				NSMutableDictionary* messageData = [[NSMutableDictionary alloc] initWithObjectsAndKeys:senderAddress, @"senderAddress", senderName, @"senderName", to, @"toList", 
-													cc, @"ccList", bcc, @"bccList", subject, @"subject", body, @"body", htmlBody, @"htmlBody", seq, @"seq", date, @"datetime", 
-                                                    unread, @"unread",
-													messageID, @"messageID", uid, @"uid", attachments, @"attachments", self.folderPath, @"folderPath", self.folderDisplayName, @"folderDisplayName", 
+				NSMutableDictionary* messageData = [[NSMutableDictionary alloc] initWithObjectsAndKeys:senderAddress, @"senderAddress", 
+                                                    senderName, @"senderName", to, @"toList", cc, @"ccList", bcc, @"bccList", 
+                                                    subject, @"subject", body, @"body", htmlBody, @"htmlBody", seq, @"seq", date, @"datetime", 
+                                                    unread, @"unread", messageID, @"messageID", uid, @"uid", attachments, @"attachments", 
+                                                    self.folderPath, @"folderPath", self.folderDisplayName, @"folderDisplayName", 
 													folderNumObj, @"folderNumInAccount", accountNumObj, @"accountNum",
-													body, @"body", subject, @"subject", syncingNewLocal, @"syncingNew", startSeqObj, @"startSeq", endSeqObj, @"endSeq", md5hash, @"md5hash", nil];
+													body, @"body", subject, @"subject", syncingNewLocal, @"syncingNew", 
+                                                    startSeqObj, @"startSeq", endSeqObj, @"endSeq", md5hash, @"md5hash", nil];
 				
 				NSInvocationOperation *nextOp = [[NSInvocationOperation alloc] initWithTarget:emailProcessor selector:@selector(addEmailWrapper:) object:messageData];
 				[emailProcessor.operationQueue addOperation:nextOp];
