@@ -32,6 +32,7 @@
 -(IBAction)composeClick;
 -(void)runLoadDataWithDBNum:(int)dbNum;
 -(void)doLoad;
+-(IBAction)searchClick:(id)sender;
 
 @property (nonatomic, retain) NSMutableArray *emailData;
 @property (assign) int nResults;

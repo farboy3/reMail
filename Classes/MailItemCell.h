@@ -37,6 +37,7 @@
 -(void)setText:(NSString*)string;
 -(IBAction)showDetailsClicked;
 
+@property (nonatomic) BOOL supressDeleteButton;
 @property (nonatomic,retain) UILabel* senderLabel;
 @property (nonatomic,retain) UILabel* sideNoteLabel;
 @property (nonatomic,retain) UILabel* dateLabel;
