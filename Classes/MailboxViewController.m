@@ -122,34 +122,42 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	return y;
 }
 
+-(void) insertRow:(NSDictionary *) rowInfo
+{
+     NSDate *rowDate = [rowInfo objectForKey:@"datetime"];
+    int location = 0;
+    for(NSDictionary *rowInfo in self.emailData) {
+        
+        NSDate *tempDate = [rowInfo objectForKey:@"datetime"];
+        
+        if ( [tempDate compare:rowDate ] < 0 ) {
+            break;
+        } else {
+            location++;
+        }
+    }
+   // NSLog(@"FOUND LOCATION is %d",location);
+    [self.emailData insertObject:rowInfo atIndex:location];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:location inSection:0];
+
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
+
 -(void)insertRows:(NSDictionary*)info {
 	@try {
 		NSArray* y = [info objectForKey:@"data"];
-		int location = 0;
+
 		BOOL insertNew = (([y count] == 1) && [[[y objectAtIndex:0] objectForKey:@"syncingNew"] boolValue]);
-		
-        NSDate *rowDate = [[y objectAtIndex:0] objectForKey:@"datetime"];
         
 		if(insertNew) {
-            location = 0;
-            for(NSDictionary *rowInfo in self.emailData) {
-                
-                NSDate *tempDate = [rowInfo objectForKey:@"datetime"];
-                
-                if ( [tempDate compare:rowDate ] < 0 ) {
-                    break;
-                } else {
-                    location++;
-                }
-            }
-            NSLog(@"FOUND LOCATION is %d",location);
-			[self.emailData insertObject:[y objectAtIndex:0] atIndex:location];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:location inSection:0];
-            
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [self insertRow:[y objectAtIndex:0]];
 		} else {
-			[self.emailData addObjectsFromArray:y];
-            [self.tableView insertRowsAtIndexPaths:[info objectForKey:@"rows"] withRowAnimation:UITableViewRowAnimationNone];
+        //     NSLog(@"Adding bulk rows to Remail client");
+			//[self.emailData addObjectsFromArray:y];
+            for(NSDictionary *info in y) {
+                 [self insertRow:info];
+            }
+          //  [self.tableView insertRowsAtIndexPaths:[info objectForKey:@"rows"] withRowAnimation:UITableViewRowAnimationNone];
             
 		}
 	} @catch (NSException *exp) {
