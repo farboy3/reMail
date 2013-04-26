@@ -125,15 +125,33 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 -(void)insertRows:(NSDictionary*)info {
 	@try {
 		NSArray* y = [info objectForKey:@"data"];
-		
+		int location = 0;
 		BOOL insertNew = (([y count] == 1) && [[[y objectAtIndex:0] objectForKey:@"syncingNew"] boolValue]);
 		
+        NSDate *rowDate = [[y objectAtIndex:0] objectForKey:@"datetime"];
+        
 		if(insertNew) {
-			[self.emailData insertObject:[y objectAtIndex:0] atIndex:0];
+            location = 0;
+            for(NSDictionary *rowInfo in self.emailData) {
+                
+                NSDate *tempDate = [rowInfo objectForKey:@"datetime"];
+                
+                if ( [tempDate compare:rowDate ] < 0 ) {
+                    break;
+                } else {
+                    location++;
+                }
+            }
+            NSLog(@"FOUND LOCATION is %d",location);
+			[self.emailData insertObject:[y objectAtIndex:0] atIndex:location];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:location inSection:0];
+            
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
 		} else {
 			[self.emailData addObjectsFromArray:y];
+            [self.tableView insertRowsAtIndexPaths:[info objectForKey:@"rows"] withRowAnimation:UITableViewRowAnimationNone];
+            
 		}
-		[self.tableView insertRowsAtIndexPaths:[info objectForKey:@"rows"] withRowAnimation:UITableViewRowAnimationNone];
 	} @catch (NSException *exp) {
 		NSLog(@"Exception in insertRows: %@", exp);
 		NSLog(@"%@|%i|%i|%i|r%i", [info objectForKey:@"rows"], [self.emailData count], [info retainCount], [[info objectForKey:@"data"] retainCount], [[info objectForKey:@"rows"] retainCount]);

@@ -1900,8 +1900,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hothouse Labs, Inc. (FVA36X8UYS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hothouse Labs, Inc. (FVA36X8UYS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Pushkar Singh (64M7XWY92H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pushkar Singh (64M7XWY92H)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1919,8 +1919,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = reMail;
-				PROVISIONING_PROFILE = "7FB3396F-D60F-447B-A8D4-39D5FFFBDD5B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7FB3396F-D60F-447B-A8D4-39D5FFFBDD5B";
+				PROVISIONING_PROFILE = "DE46404A-E430-46D5-A1DC-254CDF5D9101";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DE46404A-E430-46D5-A1DC-254CDF5D9101";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
