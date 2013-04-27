@@ -189,7 +189,7 @@
 	}
 	
 	if(indexPath.section == 0) {
-		uivc.folderNum = -1;
+		uivc.mailbox.folderNum = -1;
 		uivc.title = NSLocalizedString(@"All Mail", nil);
 	} else {
 		int accountNum = [[self.accountIndices objectAtIndex:indexPath.section-1] intValue];
@@ -199,7 +199,7 @@
 		NSArray* f = [self.accountFolders objectForKey:index];
 		NSString* folderDisplayName = [f objectAtIndex:indexPath.row];
 		
-		uivc.folderNum = [EmailProcessor combinedFolderNumFor:folderNum withAccount:accountNum];
+		uivc.mailbox.folderNum = [EmailProcessor combinedFolderNumFor:folderNum withAccount:accountNum];
 		uivc.title = folderDisplayName;
 	}
 	

@@ -205,6 +205,7 @@
 		A67025ED1243396D003519CB /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B0AC8B115484D000944873 /* libssl.a */; };
 		A67025EE1243396D003519CB /* libsasl2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14019BA010DC26A40000859B /* libsasl2.a */; };
 		A67025EF1243396D003519CB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 147537361155B73A00E1AA38 /* libcrypto.a */; };
+		B8086C6E172B20AA00643006 /* Mailbox.m in Sources */ = {isa = PBXBuildFile; fileRef = B8086C6D172B20AA00643006 /* Mailbox.m */; };
 		B82AD921170A38450006E68F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B82AD920170A38450006E68F /* Default-568h@2x.png */; };
 		B8B99750170A53970061B5C1 /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */; };
 		B8B99752170A53AD0061B5C1 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B8B99751170A53AD0061B5C1 /* arrow.png */; };
@@ -730,6 +731,8 @@
 		2A43589E11C0D845009A6A60 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = ../three20/src/Three20.bundle; sourceTree = SOURCE_ROOT; };
 		2A4358C011C0D8A9009A6A60 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8086C6C172B20AA00643006 /* Mailbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mailbox.h; sourceTree = "<group>"; };
+		B8086C6D172B20AA00643006 /* Mailbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mailbox.m; sourceTree = "<group>"; };
 		B82AD920170A38450006E68F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Artwork/Default-568h@2x.png"; sourceTree = "<group>"; };
 		B8B9974E170A53970061B5C1 /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PullRefreshTableViewController.h; path = Classes/PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		B8B9974F170A53970061B5C1 /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PullRefreshTableViewController.m; path = Classes/PullRefreshTableViewController.m; sourceTree = "<group>"; };
@@ -791,6 +794,8 @@
 				14C4C8A40F2538AE00BFFF6B /* Email.m */,
 				148938540FF9A9AA00AFAD05 /* UidEntry.h */,
 				148938550FF9A9AA00AFAD05 /* UidEntry.m */,
+				B8086C6C172B20AA00643006 /* Mailbox.h */,
+				B8086C6D172B20AA00643006 /* Mailbox.m */,
 			);
 			name = Models;
 			path = Classes;
@@ -1077,16 +1082,16 @@
 		207A09F50F53269D0092E457 /* Sync */ = {
 			isa = PBXGroup;
 			children = (
-				14F8430811372C340096DE57 /* SyncManager.h */,
-				14F8430911372C340096DE57 /* SyncManager.m */,
-				14F8430611372C340096DE57 /* ImapSync.h */,
-				14F8430711372C340096DE57 /* ImapSync.m */,
-				14F8430411372C340096DE57 /* ImapFolderWorker.h */,
-				14F8430511372C340096DE57 /* ImapFolderWorker.m */,
-				14F8430211372C340096DE57 /* EmailProcessor.h */,
-				14F8430311372C340096DE57 /* EmailProcessor.m */,
 				14F8430011372C340096DE57 /* AttachmentDownloader.h */,
 				14F8430111372C340096DE57 /* AttachmentDownloader.m */,
+				14F8430211372C340096DE57 /* EmailProcessor.h */,
+				14F8430311372C340096DE57 /* EmailProcessor.m */,
+				14F8430411372C340096DE57 /* ImapFolderWorker.h */,
+				14F8430511372C340096DE57 /* ImapFolderWorker.m */,
+				14F8430611372C340096DE57 /* ImapSync.h */,
+				14F8430711372C340096DE57 /* ImapSync.m */,
+				14F8430811372C340096DE57 /* SyncManager.h */,
+				14F8430911372C340096DE57 /* SyncManager.m */,
 			);
 			name = Sync;
 			sourceTree = "<group>";
@@ -1696,6 +1701,7 @@
 				14F8431C11372CE00096DE57 /* NSString+SBJSON.m in Sources */,
 				14F8431D11372CE00096DE57 /* SBJSON.m in Sources */,
 				B8B99750170A53970061B5C1 /* PullRefreshTableViewController.m in Sources */,
+				B8086C6E172B20AA00643006 /* Mailbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,9 +45,10 @@
 @end
 
 @implementation MailboxViewController
-@synthesize emailData;
+//@synthesize emailData;
 @synthesize nResults;
-@synthesize folderNum;
+//@synthesize folderNum;
+@synthesize mailbox;
 
 // the following two are expressed in terms of Emails, not Conversations!
 int currentDBNumAllMail = 0; // current offset we're searching at
@@ -61,15 +62,21 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 }
 
 - (void)dealloc {
-	[emailData release];
+    [mailbox release];
+//	[emailData release];
 	
     [super dealloc];
+}
+
+-(void)awakeFromNib {
+    mailbox = [[Mailbox alloc] init];
 }
 
 - (void)viewDidUnload {
 	[super viewDidUnload];
 	
-	self.emailData = nil;
+    self.mailbox = nil;
+//	self.emailData = nil;
 }
 
 
@@ -81,10 +88,10 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	moreResultsAllMail = NO;
 	int nextDBNum = dbNum+1;
 	
-	if(self.folderNum == -1) {
+	if(mailbox.folderNum == -1) {
 		[searchManager allMailWithDelegate:self startWithDB:dbNum];
 	} else {
-		[searchManager folderSearch:self.folderNum withDelegate:self startWithDB:dbNum];
+		[searchManager folderSearch:mailbox.folderNum withDelegate:self startWithDB:dbNum];
 	}
 	
 	currentDBNumAllMail = nextDBNum;
@@ -126,10 +133,8 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 {
      NSDate *rowDate = [rowInfo objectForKey:@"datetime"];
     int location = 0;
-    for(NSDictionary *rowInfo in self.emailData) {
-        
-        NSDate *tempDate = [rowInfo objectForKey:@"datetime"];
-        
+    for(NSDictionary *rowInfo in mailbox.emailData) {        
+        NSDate *tempDate = [rowInfo objectForKey:@"datetime"];        
         if ( [tempDate compare:rowDate ] < 0 ) {
             break;
         } else {
@@ -137,11 +142,11 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
         }
     }
    // NSLog(@"FOUND LOCATION is %d",location);
-    [self.emailData insertObject:rowInfo atIndex:location];
+    [mailbox.emailData insertObject:rowInfo atIndex:location];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:location inSection:0];
 
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }
+}
 
 -(void)insertRows:(NSDictionary*)info {
 	@try {
@@ -150,7 +155,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 		BOOL insertNew = (([y count] == 1) && [[[y objectAtIndex:0] objectForKey:@"syncingNew"] boolValue]);
         
 		if(insertNew) {
-            [self insertRow:[y objectAtIndex:0]];
+			[self.mailbox.emailData insertObject:[y objectAtIndex:0] atIndex:0];
 		} else {
         //     NSLog(@"Adding bulk rows to Remail client");
 			//[self.emailData addObjectsFromArray:y];
@@ -162,7 +167,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 		}
 	} @catch (NSException *exp) {
 		NSLog(@"Exception in insertRows: %@", exp);
-		NSLog(@"%@|%i|%i|%i|r%i", [info objectForKey:@"rows"], [self.emailData count], [info retainCount], [[info objectForKey:@"data"] retainCount], [[info objectForKey:@"rows"] retainCount]);
+		NSLog(@"%@|%i|%i|%i|r%i", [info objectForKey:@"rows"], [mailbox.emailData count], [info retainCount], [[info objectForKey:@"data"] retainCount], [[info objectForKey:@"rows"] retainCount]);
 	}
 	[info release];
 }
@@ -244,7 +249,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	
 	int itemFolderNum = [[data objectForKey:@"folderNum"] intValue];
 	
-	if(self.folderNum != itemFolderNum) {
+	if(mailbox.folderNum != itemFolderNum) {
 		return;
 	}
 	
@@ -273,13 +278,13 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 }
 
 -(void)emailDeleted:(NSNumber*)pk {
-	for(int i = 0; i < [emailData count]; i++) {
-		NSDictionary* email = [emailData objectAtIndex:i];
+	for(int i = 0; i < [mailbox.emailData count]; i++) {
+		NSDictionary* email = [mailbox.emailData objectAtIndex:i];
 		
 		NSNumber* emailPk = [email objectForKey:@"pk"];
 		
 		if([emailPk isEqualToNumber:pk]) {
-			[emailData removeObjectAtIndex:i];
+			[mailbox.emailData removeObjectAtIndex:i];
 			NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
 			[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
 			break;
@@ -288,7 +293,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSDictionary* email = [emailData objectAtIndex:indexPath.row];
+	NSDictionary* email = [mailbox.emailData objectAtIndex:indexPath.row];
 	
 	NSNumber* emailPk = [email objectForKey:@"pk"];
 	NSLog(@"Deleting email with pk: %@ row: %i", emailPk, indexPath.row);
@@ -297,7 +302,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	[sm deleteEmail:[emailPk intValue] dbNum:[[email objectForKey:@"dbNum"] intValue]];
 	
 	
-	[emailData removeObjectAtIndex:indexPath.row];
+	[mailbox.emailData removeObjectAtIndex:indexPath.row];
 	[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];	
 }
 
@@ -359,8 +364,6 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	currentDBNumAllMail = 0;
 	receivedAdditionalAllMail = NO;
 	moreResultsAllMail = NO;
-	
-	self.emailData = [[NSMutableArray alloc] initWithCapacity:1];
 	
 	//[sm registerForNewEmail:self]; (hehe - not for now)
 	
@@ -449,15 +452,15 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	int add = 1;
-	return [self.emailData count] + add;
+	return [mailbox.emailData count] + add;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSDictionary* y;
 		
-	if (indexPath.row < [self.emailData count]) {
-		y = [self.emailData objectAtIndex:indexPath.row];
+	if (indexPath.row < [mailbox.emailData count]) {
+		y = [mailbox.emailData objectAtIndex:indexPath.row];
 	} else {
 		y = nil; // "More Results" link
 	}
@@ -489,7 +492,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 			cell.textLabel.textColor = [UIColor blackColor];
 			cell.imageView.image = [UIImage imageNamed:@"moreResults.png"];
 		} else {
-			if([self.emailData count] == 0) {
+			if([mailbox.emailData count] == 0) {
 				cell.textLabel.text = @"No mail"; 
 			} else {
 				cell.textLabel.text = @"No more mail";
@@ -534,7 +537,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	
 	int addPrevious = 0;
 	
-	if(indexPath.row >= [self.emailData count] + addPrevious) {
+	if(indexPath.row >= [mailbox.emailData count] + addPrevious) {
 		// Clicked "More Results"
 		if(moreResultsAllMail) {
 			[self runLoadDataWithDBNum:currentDBNumAllMail+1];
@@ -551,7 +554,7 @@ BOOL moreResultsAllMail = NO; // are there more results after this?
 	[sem cancel];
 	
 	MailViewController *mailViewController = [[MailViewController alloc] init];
-	NSDictionary* y = [self.emailData objectAtIndex:indexPath.row-addPrevious];
+	NSDictionary* y = [mailbox.emailData objectAtIndex:indexPath.row-addPrevious];
 	
 	int emailPk = [[y objectForKey:@"pk"] intValue];
 	int dbNum = [[y objectForKey:@"dbNum"] intValue];

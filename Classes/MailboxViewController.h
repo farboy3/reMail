@@ -22,11 +22,13 @@
 #import <MessageUI/MessageUI.h>
 #import "SearchRunner.h"
 #import "PullRefreshTableViewController.h"
+#import "Mailbox.h"
 
 @interface MailboxViewController : PullRefreshTableViewController <MFMailComposeViewControllerDelegate, SearchManagerDelegate> {
-	NSMutableArray *emailData;
+//	NSMutableArray *emailData;
 	int nResults;
-	int folderNum;
+//	int folderNum;
+    Mailbox *mailbox;
 }
 
 -(IBAction)composeClick;
@@ -34,7 +36,8 @@
 -(void)doLoad;
 -(IBAction)searchClick:(id)sender;
 
-@property (nonatomic, retain) NSMutableArray *emailData;
+//@property (nonatomic, retain) NSMutableArray *emailData;
 @property (assign) int nResults;
-@property (assign) int folderNum;
+//@property (assign) int folderNum;
+@property (nonatomic,retain) Mailbox* mailbox;
 @end
